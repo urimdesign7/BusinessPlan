@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSST 사업계획서 & 예비창업패키지 PPT 빌더 (4단계)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-badge">PSST</div>
+      <div>
+        <h1>사업계획서 &amp; 예비창업패키지 PPT 빌더</h1>
+        <p class="subtitle">아이디어 입력 → PSST 사업계획서 → PPT 편집 → 디자인 프레젠테이션</p>
+      </div>
+    </div>
+
+    <nav class="stepper" aria-label="진행 단계">
+      <button type="button" class="step-pill active" data-step="1">
+        <span class="step-num">1</span> 아이디어 입력
+      </button>
+      <span class="step-arrow">›</span>
+      <button type="button" class="step-pill" data-step="2" disabled>
+        <span class="step-num">2</span> PSST 사업계획서 수정
+      </button>
+      <span class="step-arrow">›</span>
+      <button type="button" class="step-pill" data-step="3" disabled>
+        <span class="step-num">3</span> PPT 항목 편집
+      </button>
+      <span class="step-arrow">›</span>
+      <button type="button" class="step-pill" data-step="4" disabled>
+        <span class="step-num">4</span> 프레젠테이션
+      </button>
+    </nav>
+
+    <div class="topbar-actions">
+      <button type="button" id="btnApiModal" class="btn btn-ghost" title="선택 사항: Gemini API 연동">
+        ⚙️ AI API 설정 <span id="apiStatusDot" class="dot dot-off"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- =========================================================
+         STEP 1: 창업 아이디어 입력 화면
+         ========================================================= -->
+    <section id="step-1" class="step-view active">
+      <div class="card step1-card">
+        <div class="card-header">
+          <div>
+            <span class="step-tag">STEP 1</span>
+            <h2>창업 아이디어 입력</h2>
+            <p class="card-desc">아이디어를 입력하시면 PSST 4단계 사업계획서 초안을 자동으로 구성해 드립니다.</p>
+          </div>
+          <div class="preset-group">
+            <span class="preset-label">예시 불러오기:</span>
+            <button type="button" class="chip" data-preset="realestate">🏢 부동산 마케팅 AI</button>
+            <button type="button" class="chip" data-preset="tax">🧾 AI 세무·노무 SaaS</button>
+            <button type="button" class="chip" data-preset="senior">🩺 시니어 돌봄 플랫폼</button>
+            <button type="button" id="btnResetIdea" class="chip chip-reset">🧹 새로운 아이디어 입력</button>
+          </div>
+        </div>
+
+        <form id="ideaForm" class="form-body">
+          <div class="row-2">
+            <div class="field-group">
+              <label for="itemName">창업 아이템명 <span class="req">*</span></label>
+              <input type="text" id="itemName" placeholder="예: 부동산 특화 AI 마케팅 에이전트" required />
+            </div>
+            <div class="field-group">
+              <label for="oneLiner">한 줄 핵심 가치 제안 <span class="req">*</span></label>
+              <input type="text" id="oneLiner" placeholder="예: 매물 분석부터 법규 검수·콘텐츠 제작·리드 응대까지 자동화" required />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="ideaDesc">핵심 아이디어 설명 (자유롭게 입력) <span class="req">*</span></label>
+            <textarea id="ideaDesc" rows="4"
+              placeholder="어떤 문제를 누구를 위해 어떻게 해결하는지 자유롭게 적어주세요. 짧게 적어도 PSST 4단계로 자동 구조화됩니다." required></textarea>
+          </div>
+
+          <div class="row-2">
+            <div class="field-group">
+              <label for="targetCustomer">목표 고객 (타겟 시장)</label>
+              <input type="text" id="targetCustomer" placeholder="예: 개업 공인중개사, 분양대행사, 시행사" />
+            </div>
+            <div class="field-group">
+              <label for="revenueModel">수익 모델 (BM)</label>
+              <input type="text" id="revenueModel" placeholder="예: B2B SaaS 월 구독 + 성과 연동형" />
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field-group">
+              <label for="problems">해결하려는 핵심 문제 (선택)</label>
+              <textarea id="problems" rows="2" placeholder="비워두면 아이디어 기반으로 자동 도출됩니다."></textarea>
+            </div>
+            <div class="field-group">
+              <label for="features">핵심 기능 / 기술 차별성 (선택)</label>
+              <textarea id="features" rows="2" placeholder="비워두면 아이디어 기반으로 자동 구조화됩니다."></textarea>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field-group">
+              <label for="founderName">대표자 / 팀명 (선택)</label>
+              <input type="text" id="founderName" placeholder="예: 홍길동 / 우림디자인" />
+            </div>
+            <div class="field-group">
+              <label for="teamSummary">팀 핵심 역량 (선택)</label>
+              <input type="text" id="teamSummary" placeholder="예: 부동산 도메인 5년 + AI/풀스택 개발" />
+            </div>
+          </div>
+
+          <div class="step-footer-actions">
+            <p id="genStatus" class="status-text"></p>
+            <button type="submit" id="btnGenerate" class="btn btn-primary btn-lg">
+              ✨ 2단계: PSST 사업계획서 생성하기 →
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STEP 2: PSST 4단계 사업계획서 확인 및 수정
+         ========================================================= -->
+    <section id="step-2" class="step-view">
+      <div class="step-toolbar">
+        <div class="toolbar-left">
+          <button type="button" id="btnBackTo1" class="btn btn-light">← 1단계: 아이디어 수정</button>
+          <span class="toolbar-hint">각 항목을 클릭하여 내용을 직접 수정할 수 있습니다. 수정 내용은 3단계 PPT에 자동 반영됩니다.</span>
+        </div>
+        <div class="toolbar-right">
+          <button type="button" id="btnDownloadMd2" class="btn btn-light">📄 마크다운 (.md)</button>
+          <button type="button" id="btnPrint" class="btn btn-light">🖨️ 인쇄/PDF</button>
+          <button type="button" id="btnGoTo3" class="btn btn-primary btn-lg">
+            📊 3단계: 발표자료(PPT) 만들기 →
+          </button>
+        </div>
+      </div>
+
+      <div id="psstEditor" class="psst-editor">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STEP 3: 발표자료(PPT) 만들기
+         ========================================================= -->
+    <section id="step-3" class="step-view">
+      <div class="step-toolbar">
+        <div class="toolbar-left">
+          <button type="button" id="btnBackTo2" class="btn btn-light">← 2단계: 사업계획서 수정</button>
+          <span class="toolbar-hint">각 슬라이드의 제목과 항목을 직접 수정할 수 있습니다. 수정 내용은 PPT(.pptx)에 그대로 반영됩니다.</span>
+        </div>
+        <div class="toolbar-right">
+          <button type="button" id="btnSyncSlides" class="btn btn-light" title="2단계 수정 내용으로 슬라이드 다시 불러오기">🔄 2단계 내용
+            불러오기</button>
+          <button type="button" id="btnDownloadMd3" class="btn btn-light">📄 최종 사업계획서 (.md)</button>
+          <button type="button" id="btnDownloadPptx" class="btn btn-light">
+            📊 PPT (.pptx) 다운로드
+          </button>
+          <button type="button" id="btnGoTo4" class="btn btn-primary btn-lg">
+            🎨 4단계: 프레젠테이션 보기 →
+          </button>
+        </div>
+      </div>
+
+      <div class="ppt-summary-banner">
+        <div>
+          <span class="step-tag">STEP 3 · READY</span>
+          <h2 id="pptBannerTitle">예비창업패키지 발표자료 (총 12슬라이드)</h2>
+          <p id="pptBannerDesc">각 슬라이드 항목을 수정한 뒤 <strong>4단계: 프레젠테이션 보기</strong>를 누르면 디자인이 입혀진 발표 화면으로 확인할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div id="slidesPreview" class="slides-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STEP 4: 디자인 적용 프레젠테이션 보기
+         ========================================================= -->
+    <section id="step-4" class="step-view">
+      <div class="step-toolbar">
+        <div class="toolbar-left">
+          <button type="button" id="btnBackTo3" class="btn btn-light">← 3단계: PPT 항목 수정</button>
+          <div class="theme-picker">
+            <span class="toolbar-hint" style="font-weight:700;color:var(--navy);">디자인 테마:</span>
+            <button type="button" class="theme-btn active" data-theme="navy">네이비 &amp; 틸</button>
+            <button type="button" class="theme-btn" data-theme="emerald">에메랄드</button>
+            <button type="button" class="theme-btn" data-theme="burgundy">버건디 &amp; 골드</button>
+            <button type="button" class="theme-btn" data-theme="minimal">미니멀 화이트</button>
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <button type="button" id="btnFullscreen" class="btn btn-light">🖥️ 전체화면 발표</button>
+          <button type="button" id="btnDownloadPptx4" class="btn btn-primary btn-lg">
+            📊 디자인 적용 PPT (.pptx) 다운로드
+          </button>
+        </div>
+      </div>
+
+      <div id="presWrapper" class="pres-wrapper">
+        <div class="pres-stage-row">
+          <button type="button" id="btnPrevSlide" class="pres-nav-btn" title="이전 슬라이드 (←)">‹</button>
+          <div id="presStage" class="pres-stage theme-navy">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+          <button type="button" id="btnNextSlide" class="pres-nav-btn" title="다음 슬라이드 (→)">›</button>
+        </div>
+
+        <div class="pres-controls">
+          <span id="presCounter" class="pres-counter">1 / 12</span>
+          <span class="toolbar-hint">키보드 좌우 화살표(← / →)로 슬라이드를 넘길 수 있습니다.</span>
+        </div>
+
+        <div id="presThumbs" class="pres-thumbs">
+          <!-- Thumbnails rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Optional Gemini API Key Modal -->
+  <div id="apiModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>AI 생성 엔진 설정 (선택 사항)</h3>
+        <button type="button" id="btnCloseModal" class="btn-icon">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          API 키가 없어도 <strong>내장 PSST 스마트 엔진</strong>으로 즉시 사업계획서와 PPT를 생성할 수 있습니다.<br />
+          <strong>Gemini API 키</strong>를 입력하면 입력한 아이디어에 맞춘 심층 맞춤형 내용으로 생성됩니다. (키는 브라우저 로컬에만 저장됩니다)
+        </p>
+        <div class="field-group">
+          <label for="geminiApiKey">Gemini API Key (선택)</label>
+          <input type="password" id="geminiApiKey" placeholder="AIza..." />
+        </div>
+        <div class="field-group">
+          <label for="geminiModel">모델 선택</label>
+          <select id="geminiModel">
+            <option value="gemini-2.5-flash">gemini-2.5-flash (빠름 · 권장)</option>
+            <option value="gemini-2.5-pro">gemini-2.5-pro (심층 작성)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnClearApi" class="btn btn-light">키 삭제</button>
+        <button type="button" id="btnSaveApi" class="btn btn-primary">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/pptxgen.bundle.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
